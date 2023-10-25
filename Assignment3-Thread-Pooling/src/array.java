@@ -30,7 +30,7 @@ public class array {
     }
 
     // add two integers at a time and the only way to access the queue.
-    void addInt() {
+    synchronized void addInt() {
         arrSize = theArray.size();
 
         int first = 0;
@@ -53,11 +53,11 @@ public class array {
 
                 theArray.add(ans);
 
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
+                // try {
+                //     Thread.sleep(1000);
+                // } catch (Exception e) {
+                //     System.out.println(e);
+                // }
                 System.out.println(ans);
             }
         }   
