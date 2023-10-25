@@ -1,41 +1,35 @@
-public class threadPool extends Thread{
+import java.util.concurrent.atomic.AtomicBoolean;
 
-
+public class threadPool extends Thread {
+    private AtomicBoolean stopFlag;
     array arr;
-    public threadPool(array arr){
+
+    public threadPool(array arr, AtomicBoolean stopFlag) {
         this.arr = arr;
+        this.stopFlag = stopFlag;
     }
 
     @Override
     public void run() {
-        arr.sumOfAll();
+        while (!Thread.currentThread().isInterrupted() && !stopFlag.get()) {
+            if (arr.getArray().size() == 0) {
+                Thread.currentThread().interrupt(); // Interrupt the thread
+                stopFlag.set(true);
+                break;
+            }
+            arr.sumOfAll();
+        }
     }
 
+    void create10Threads() {
+        AtomicBoolean stopFlag = new AtomicBoolean(false);
+        threadPool[] threads = new threadPool[10];
 
-    void create10Threads(){
-        threadPool th1 = new threadPool(arr);
-        threadPool th2 = new threadPool(arr);
-        threadPool th3 = new threadPool(arr);
-        threadPool th4 = new threadPool(arr);
-        threadPool th5 = new threadPool(arr);
-        threadPool th6 = new threadPool(arr);
-        threadPool th7 = new threadPool(arr);
-        threadPool th8 = new threadPool(arr);
-        threadPool th9 = new threadPool(arr);
-        threadPool th10 = new threadPool(arr);
-
-
-        th1.start();
-        th2.start();
-        th3.start();
-        th4.start();
-        th5.start();
-        th6.start();
-        th7.start();
-        th8.start();
-        th9.start();
-        th10.start();
-
-
+        for (int i = 0; i < 10; i++) {
+            threads[i] = new threadPool(arr, stopFlag);
+            threads[i].start();
+        }
+        
+        
     }
 }
