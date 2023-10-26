@@ -1,70 +1,64 @@
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class array {
-    // this queue stores integers from 1 to x.
-    private Queue<Integer> theArray = new LinkedList<Integer>();
+    // This queue stores AtomicIntegers.
+    private Queue<AtomicInteger> theArray = new LinkedList<>();
 
-    int arrSize;
+    private AtomicInteger result = new AtomicInteger(0);
 
     public array(int x) {
-        for (int i = 1; i < x + 1; i++) {
-            theArray.add(i);
+        for (int i = 1; i <= x; i++) {
+            theArray.add(new AtomicInteger(i));
         }
     }
 
-    // given method to add all the integers
-    void sumOfAll() {
-        arrSize = theArray.size();
-        while (arrSize > 2 && !theArray.isEmpty() ) {
+    // Given method to add all the integers
+    public int sumOfAll() {
+        long start = System.currentTimeMillis();
+        while (!theArray.isEmpty()) {
             addInt();
+
+            if (theArray.size() == 1) {
+                result.set(theArray.poll().get());
+                long finish = System.currentTimeMillis();
+                long timeElapsed = finish - start;
+                System.out.println("Time Elapsed: " + timeElapsed);
+                System.out.println("Final Result: " + result);
+            }
         }
-        arrSize = theArray.size();
-        if (!theArray.isEmpty() && arrSize == 1){
-            Integer finalValue = theArray.poll();
-            if (finalValue != null) {
-                     System.out.println("Final Answer:" + finalValue);
-                }
-        }
-        
+        return result.get();
     }
 
-    // add two integers at a time and the only way to access the queue.
-    synchronized void addInt() {
-        arrSize = theArray.size();
-
-        int first = 0;
+    // Add two integers at a time using AtomicInteger and ensure thread safety.
+    public void addInt() {
         if (!theArray.isEmpty()) {
-            Integer firstValue = theArray.poll();
-
-            if (firstValue != null) {
-                first = firstValue;
-            }
-
-            int second = 0;
+            AtomicInteger firstValue = theArray.poll();
+            
 
             if (!theArray.isEmpty()) {
-                Integer secondValue = theArray.poll();
+                AtomicInteger secondValue = null;
+                secondValue = theArray.poll();
+
                 if (secondValue != null) {
-                    second = secondValue;
+                    int ans = firstValue.get() + secondValue.get();
+                    theArray.add(new AtomicInteger(ans));
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    if (!theArray.isEmpty()) {
+                        System.out.println(ans);
+                    }
                 }
-
-                int ans = first + second;
-
-                theArray.add(ans);
-
-                // try {
-                //     Thread.sleep(1000);
-                // } catch (Exception e) {
-                //     System.out.println(e);
-                // }
-                System.out.println(ans);
             }
-        }   
+        }
     }
 
-    public Queue getArray() {
+    public Queue<AtomicInteger> getArray() {
         return theArray;
     }
-
 }
