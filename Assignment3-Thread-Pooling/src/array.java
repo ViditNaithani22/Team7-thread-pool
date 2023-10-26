@@ -15,7 +15,7 @@ public class array {
     }
 
     // Given method to add all the integers
-    public int sumOfAll() {
+    public synchronized int sumOfAll() {
         long start = System.currentTimeMillis();
         while (!theArray.isEmpty()) {
             addInt();
@@ -46,7 +46,7 @@ public class array {
                     theArray.add(new AtomicInteger(ans));
 
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(10);
                     } catch (Exception e) {
                         System.out.println(e);
                     }
