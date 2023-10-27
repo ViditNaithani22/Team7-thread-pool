@@ -1,4 +1,3 @@
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class threadPool extends Thread {
     array arr;
@@ -21,7 +20,6 @@ public class threadPool extends Thread {
             threads[i] = new threadPool(arr);
             threads[i].start();
         }
-        
-        
+
     }
 }
