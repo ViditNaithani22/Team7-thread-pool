@@ -48,6 +48,11 @@ public class array {
                 System.out
                         .println(Thread.currentThread().getName() + " is working: " + first + "+" + second + "=" + ans);
             }
+            try {
+                Thread.sleep(1000);
+            }catch (Exception e){
+                System.out.println(e);
+            }
         }
     }
 
