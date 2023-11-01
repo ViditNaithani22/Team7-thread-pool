@@ -23,7 +23,7 @@ public class array {
             synchronized (lock) {
                 if (theArray.size() == 1) {
                     // Once the last element is reached, obtain the answer
-                    result.set(theArray.poll().get());
+                    result.set(theArray.poll().get() + result.get());
                     long finish = System.currentTimeMillis();
                     long timeElapsed = finish - start;
                     System.out.println("Time Elapsed: " + timeElapsed);
