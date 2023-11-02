@@ -41,3 +41,6 @@ Through this multi-threading approach, we transform the process from performing 
 
 Improved Efficiency:
 The utilization of 10 threads substantially improves the efficiency and execution speed of the sum calculation. Multiple threads operate in parallel to reduce the overall time required for the computation.
+
+Run the program:
+Run Main.java or Main2.java (threading) to compare the two programs together. 
